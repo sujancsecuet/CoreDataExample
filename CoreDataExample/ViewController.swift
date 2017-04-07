@@ -11,26 +11,10 @@ import CoreData
 
 class ViewController: UIViewController, UITableViewDataSource {
 
+    // List of variables
     @IBOutlet weak var tableView: UITableView!
     var person: [NSManagedObject] = []
     
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
-        return person.count
-    }
-
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath)
-        -> UITableViewCell {
-            
-            let people = person[indexPath.row]
-            let cell =
-                tableView.dequeueReusableCell(withIdentifier: "Cell",
-                                              for: indexPath)
-            cell.textLabel?.text = people.value(forKeyPath: "name") as? String
-            return cell
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -61,6 +45,25 @@ class ViewController: UIViewController, UITableViewDataSource {
         }
     }
     
+    // Tableview datasource delegate functions
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
+        return person.count
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath)
+        -> UITableViewCell {
+            
+            let people = person[indexPath.row]
+            let cell =
+                tableView.dequeueReusableCell(withIdentifier: "Cell",
+                                              for: indexPath)
+            cell.textLabel?.text = people.value(forKeyPath: "name") as? String
+            return cell
+    }
+    
+    // Add a new name from textfield input
     @IBAction func addName(_ sender: AnyObject) {
         
         let alert = UIAlertController(title: "New Name",
@@ -91,6 +94,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         present(alert, animated: true)
     }
     
+    // Save new name in Entity
     func save(name: String) {
         
         guard let appDelegate =
